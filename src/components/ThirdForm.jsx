@@ -3,7 +3,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
 import { useNavigate } from "react-router-dom";
 
-const ThirdForm = ({ setSaveFormData }) => {
+const ThirdForm = ({}) => {
   const navigate = useNavigate();
   const validationSchema = Yup.object().shape({
     countryCode: Yup.string()

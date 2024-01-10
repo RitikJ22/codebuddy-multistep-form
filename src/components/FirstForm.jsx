@@ -2,7 +2,7 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
 
-const FirstForm = ({ setSaveFormData }) => {
+const FirstForm = ({}) => {
   const validationSchema = Yup.object().shape({
     emailId: Yup.string().required("Email is required").email("Must be a valid email ID"),
     password: Yup.string()
