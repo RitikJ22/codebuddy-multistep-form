@@ -2,7 +2,7 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
 
-const FirstForm = ({}) => {
+const FirstForm = () => {
   const validationSchema = Yup.object().shape({
     emailId: Yup.string().required("Email is required").email("Must be a valid email ID"),
     password: Yup.string()
@@ -22,14 +22,15 @@ const FirstForm = ({}) => {
   });
 
   const onSubmit = (data) => {
-    setSaveFormData(data);
-    // Additional logic here if needed
+    //setSaveFormData(data);
+    console.log(data);
+    localStorage.setItem("data", JSON.stringify(data));
   };
 
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="mx-auto my-10 max-w-md rounded-lg bg-white p-6 shadow-md"
+      className="mx-auto mb-4 mt-10 max-w-md rounded-lg bg-white p-6 shadow-md"
     >
       <h2 className="mb-6 text-center text-2xl font-semibold">Form</h2>
       <div className="mb-4">
@@ -66,7 +67,7 @@ const FirstForm = ({}) => {
           <p className="mt-1 text-xs italic text-red-500">{errors.password.message}</p>
         )}
       </div>
-      <button type="submit" className="w-full rounded-lg bg-blue-500 py-2 text-sm text-white">
+      <button type="submit" className="mb-4 w-full rounded-lg bg-blue-500 py-2 text-sm text-white">
         Save
       </button>
     </form>

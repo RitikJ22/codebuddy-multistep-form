@@ -25,13 +25,17 @@ const SecondForm = () => {
 
   const onSubmit = (data) => {
     console.log(data);
+    localStorage.setItem("data", JSON.stringify(data));
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col space-y-4">
-      <h2 className="text-2xl font-semibold">Form</h2>
-      <div className="flex flex-col space-y-2">
-        <label htmlFor="firstName" className="font-medium">
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      className="mx-auto mb-4 flex max-w-md flex-col space-y-4  rounded-lg bg-white  p-8 shadow-md"
+    >
+      <h2 className="text-center text-2xl font-semibold text-gray-800">Form</h2>
+      <div className="flex flex-col space-y-1">
+        <label htmlFor="firstName" className="mb-2 block  text-sm  font-medium  text-gray-700">
           First Name
         </label>
         <input
@@ -39,16 +43,15 @@ const SecondForm = () => {
           name="firstName"
           type="text"
           {...register("firstName")}
-          className={`form-input rounded-md border p-2 ${
+          className={`form-input w-full rounded-lg border-2 p-2 text-sm ${
             errors.firstName ? "border-red-500" : "border-gray-300"
           }`}
+          placeholder="John"
         />
-        {errors.firstName && (
-          <p className="text-xs italic text-red-500">{errors.firstName.message}</p>
-        )}
+        {errors.firstName && <p className="text-sm text-red-500">{errors.firstName.message}</p>}
       </div>
-      <div className="flex flex-col space-y-2">
-        <label htmlFor="lastName" className="font-medium">
+      <div className="flex flex-col space-y-1">
+        <label htmlFor="lastName" className="text-sm font-medium text-gray-700">
           Last Name
         </label>
         <input
@@ -56,16 +59,15 @@ const SecondForm = () => {
           name="lastName"
           type="text"
           {...register("lastName")}
-          className={`form-input rounded-md border p-2 ${
+          className={`form-input w-full rounded-lg border-2 p-2 text-sm ${
             errors.lastName ? "border-red-500" : "border-gray-300"
           }`}
+          placeholder="Doe"
         />
-        {errors.lastName && (
-          <p className="text-xs italic text-red-500">{errors.lastName.message}</p>
-        )}
+        {errors.lastName && <p className="text-sm text-red-500">{errors.lastName.message}</p>}
       </div>
-      <div className="flex flex-col space-y-2">
-        <label htmlFor="address" className="font-medium">
+      <div className="flex flex-col space-y-1">
+        <label htmlFor="address" className="text-sm font-medium text-gray-700">
           Address
         </label>
         <input
@@ -73,13 +75,14 @@ const SecondForm = () => {
           name="address"
           type="text"
           {...register("address")}
-          className={`form-input rounded-md border p-2 ${
+          className={`form-input w-full rounded-lg border-2 p-2 text-sm ${
             errors.address ? "border-red-500" : "border-gray-300"
           }`}
+          placeholder="123 Main St"
         />
-        {errors.address && <p className="text-xs italic text-red-500">{errors.address.message}</p>}
+        {errors.address && <p className="text-sm text-red-500">{errors.address.message}</p>}
       </div>
-      <button type="submit" className="rounded-md bg-blue-500 p-2 text-white">
+      <button type="submit" className="mb-4 w-full rounded-lg bg-blue-500 py-2 text-sm text-white">
         Save
       </button>
     </form>
