@@ -5,8 +5,9 @@
 @tailwind utilities;
 
 
+
 .go2392553372 {
-  margin: auto;
+  margin: auto !important;
 }
 
 button{
@@ -14,4 +15,5 @@ button{
 }
 button:disabled{
     display: none;
+    cursor: not-allowed;
 }

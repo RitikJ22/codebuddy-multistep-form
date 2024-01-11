@@ -1,8 +1,8 @@
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
-
-const FirstForm = () => {
+import { useEffect, useState } from "react";
+const FirstForm = (props) => {
   const validationSchema = Yup.object().shape({
     emailId: Yup.string().required("Email is required").email("Must be a valid email ID"),
     password: Yup.string()
@@ -16,16 +16,36 @@ const FirstForm = () => {
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors },
   } = useForm({
     resolver: yupResolver(validationSchema),
   });
 
   const onSubmit = (data) => {
-    //setSaveFormData(data);
-    console.log(data);
-    localStorage.setItem("data", JSON.stringify(data));
+    sessionStorage.setItem("firstFormData", JSON.stringify(data));
+    signalParent(true);
   };
+
+  useEffect(() => {
+    const storedData = sessionStorage.getItem("firstFormData");
+    if (storedData) {
+      const formData = JSON.parse(storedData);
+      for (const key in formData) {
+        setValue(key, formData[key], { shouldValidate: true });
+      }
+    }
+  }, [setValue]);
+
+  const [isValidSate, setIsValidState] = useState(false);
+  const signalParent = (isValid) => {
+    setIsValidState(isValid);
+    props.signalIfValid(isValid);
+  };
+
+  useEffect(() => {
+    signalParent(isValidSate);
+  }, []);
 
   return (
     <form

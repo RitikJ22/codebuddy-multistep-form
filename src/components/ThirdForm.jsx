@@ -1,8 +1,42 @@
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
-const ThirdForm = () => {
+const handleSubmitForm = async (data) => {
+  try {
+    const firstFormData = JSON.parse(sessionStorage.getItem("firstFormData")) || {};
+    const secondFormData = JSON.parse(sessionStorage.getItem("secondFormData")) || {};
+    const { acceptTermsAndCondition, ...formDataWithoutAccept } = data;
+    const finalData = {
+      ...firstFormData,
+      ...secondFormData,
+      ...formDataWithoutAccept,
+    };
+
+    const response = await fetch("https://codebuddy.review/submit", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(finalData),
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const result = await response.json();
+    console.log("Submission successful", result);
+    // Handle success, show message to user, navigate to next page, etc.
+  } catch (error) {
+    console.error("Submission failed", error);
+    // Handle errors, show error message to user, etc.
+  }
+};
+
+const ThirdForm = (props) => {
   const validationSchema = Yup.object().shape({
     countryCode: Yup.string()
       .required("Country code is required")
@@ -18,16 +52,38 @@ const ThirdForm = () => {
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors },
   } = useForm({
     resolver: yupResolver(validationSchema),
   });
-
+  const navigate = useNavigate();
   const onSubmit = (data) => {
-    console.log(data);
-    localStorage.setItem("data", JSON.stringify(data));
-    // navigate("/confirmationPage"); // Assuming the next page is called 'confirmationPage'
+    sessionStorage.setItem("thirdFormData", JSON.stringify(data));
+    signalParent(true);
+    handleSubmitForm(data);
+    navigate("/posts");
   };
+
+  useEffect(() => {
+    const storedData = sessionStorage.getItem("secondFormData");
+    if (storedData) {
+      const formData = JSON.parse(storedData);
+      for (const key in formData) {
+        setValue(key, formData[key], { shouldValidate: true });
+      }
+    }
+  }, [setValue]);
+
+  const [isValidSate, setIsValidState] = useState(false);
+  const signalParent = (isValid) => {
+    setIsValidState(isValid);
+    props.signalIfValid(isValid);
+  };
+
+  useEffect(() => {
+    signalParent(isValidSate);
+  }, []);
 
   return (
     <>
