@@ -22,7 +22,7 @@ const Home = () => {
     fontSize: "0.875rem",
     color: "white",
     margin: "auto",
-    maxWidth: "16rem",
+    maxWidth: "28rem",
     width: "100%",
   };
 

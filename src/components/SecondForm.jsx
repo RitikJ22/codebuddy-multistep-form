@@ -53,7 +53,7 @@ const SecondForm = (props) => {
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="mx-auto mb-4 flex max-w-md flex-col space-y-4  rounded-lg bg-white  p-8 shadow-md"
+      className="mx-auto mb-4 flex max-w-md flex-col space-y-4  rounded-lg bg-white  p-8 shadow-md md:w-full"
     >
       <h2 className="text-center text-2xl font-semibold text-gray-800">Form</h2>
       <div className="flex flex-col space-y-1">

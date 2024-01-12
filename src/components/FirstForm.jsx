@@ -50,7 +50,7 @@ const FirstForm = (props) => {
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="mx-auto mb-4 mt-10 max-w-md rounded-lg bg-white p-6 shadow-md"
+      className="mx-auto mb-4 mt-10 max-w-md rounded-lg bg-white p-6 shadow-md md:w-full"
     >
       <h2 className="mb-6 text-center text-2xl font-semibold">Form</h2>
       <div className="mb-4">

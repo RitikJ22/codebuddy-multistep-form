@@ -86,7 +86,7 @@ const ThirdForm = (props) => {
     <>
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="mx-auto my-10 flex max-w-md flex-col space-y-4 rounded-lg bg-white  p-6  shadow-md"
+        className="mx-auto my-10 flex max-w-md flex-col space-y-4 rounded-lg bg-white  p-6  shadow-md md:w-full"
       >
         <h2 className="text-center text-2xl font-semibold text-gray-800">Form</h2>
         <div className="space-y-4">
