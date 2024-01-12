@@ -2,107 +2,56 @@
 
 This repository contains the assignment for the Codebuddy React Interview. The assignment consists of two projects: Deployed in the `main`  and `Seat_Booking` branch .
 
-## Project 1: Multi-Step Form
+## Project 2: Movie-seat Booking
 
-The `main` branch hosts the first project which is a Multi-step Form. [live link](<https://codebuddy-multistep-form.vercel.app/>).
+The `Seat_Booking` branch hosts the Second project which is a  Movie-seat Booking. [live link](<https://codebuddy-multistep-form-git-seatbooking-ritikj22s-projects.vercel.app//>).
 
 ### Project Overview
 
-# The Problem Statement
+
+# Problem Statement
 
 ## Part 1
 
 ---
 
-### Create multi-step form in React which will contain 3 forms
+Create an UI to show the seats available for booking in a movie theater. The movie theater can have N number of rows and each row can seats matching it's row number.
 
-**Form 1** will take 2 inputs, with the below validations:
+For example, if the movie theater has 3 rows, the first row or row 1 has 1 seat, the second row or row 2 has 2 seats and the third row or row 3 has 3 seats.
 
-- `emailId` - Required. Must be a valid email ID
-- `password` - Required. Must contain minimum 2 capital letters, 2 small letter, 2 numbers and 2 special characters.
+Similary Nth row will have N number of seats.
 
-**Form 2** will take 3 inputs, with the below validations:
+All the prime numbered seats are reserved for the movie theater.
 
-- `firstName` - Required. Allow only alphabets. Minimum of 2 character and maximum 50.
-- `lastName` - Optional. If not empty, will only allow alphabets
-- `address` - Required. Minimum length 10.
+You can fetch the seats using the api GET `https://codebuddy.review/seats?count=3`, which will return the list of seats available for booking. You can pass the number of rows as url query params using the key `count`.
 
-**Form 3** will take 3 inputs, with the below validations:
+Create a HTML Input element to accept the number of rows and submit button to fetch the seats.
 
-- `countryCode` - Required. Allow only 2 country code, India (+91) and America (+1). Must be a dropdown input
-- `phoneNumber` - Required. Allow only 10 digit numeric phone number
-- `acceptTermsAndCondition` - Required. Will be a checkbox input and must be selected.
+The maximum number of rows will be 10 and mimimum number of rows will be 3.
 
-Each form will have 3 button, named below:
+On change of number of rows, render the seats row wise. The reserved seats should be marked as disabled. Upon selection of seats by the user, the selected seats should be marked as selected.
 
-- `Back`: Will be disabled for **Form 1**
-- `Save`: Will be enabled for all forms`
-- `Save and Next`: Will be disabled for **Form 3**
+Submit the selected seats to the server, using the api POST `https://codebuddy.review/submit`. You should submit the array of seat id's selected by the user.
 
-#### Features:
+User should select a minimum of 1 seat and maximum of 5 seats.
 
-- User can `Save and Next` only if the form valid for each step.
-- User can go back to previous screen to change it's values
-- User will have the ability to jump back to any form if previously filled using a tabbed navigation
-- Show error message to user for failed input validation
+Render the rows and seats in an inverted pyramid shape.
 
-At the end of **Form 3**, when the user will click on save all the details needs to submitted through a HTTP POST request to `https://codebuddy.review/submit`
+Each seat should show the following details:
 
-Example request body:
+- Seat number
+- Seat reservation status
+- Seat Row number
 
-```json
-{
-  "emailId": "john.doe@gmail.com",
-  "password": "QWerty##11",
-  "firstName": "John",
-  "lastName": "Doe",
-  "address": "22/B, Baker Street, London - 10089",
-  "countryCode": "+91",
-  "phoneNumber": "2225550909"
-}
-```
+## Part 2
 
-> Note: `acceptTermsAndCondition` must not be submitted to API
+---
 
-Upon doing a valid HTTP POST request you will get a response like below.
+Calculate the total cost of the seats selected by the user.The cost of the movie ticket is $20. The cost of a single seat is calculated based on the seat row number.
 
-Sample API response:
+Cost of a seat is $10 multiplied by the seat row number.
 
-```json
-{
-  "message": "Success",
-  "data": {
-    "emailId": "john.doe@gmail.com",
-    "password": "QWerty##11",
-    "firstName": "John",
-    "lastName": "Doe",
-    "address": "22/B, Baker Street, London - 10089",
-    "countryCode": "+91",
-    "phoneNumber": "2225550909"
-  }
-}
-```
+So if the user selects the seat row number 3, the cost of the seat is $30. (3 \* 10). So the total cost of the seats selected by the user is $30 + $20 = $50.
 
-### Part 2
-
-Upon submitting the form at the end, redirect the user to `/posts` (i.e., http://localhost:3000/posts)
-
-Here you have to display the list of post which we get from the API using HTTP GET request at `https://codebuddy.review/posts`
-
-This API will return a list of posts having the below details
-
-- `id`: Unique id for each post
-- `firstName`: First name of the author
-- `lastName`: Last name of the author
-- `writeup`: Post description / writeup
-- `image`: Post image
-- `avatar`: Post author image
-
-Display the list of posts which will show the above details.
-
-For Large Screens, show 3 post in an single row
-
-For Medium Screens, show 2 post in an single row
-
-For Small Screens, show 1 post in an single row
+Display the total cost of the seats selected by the user.
 
