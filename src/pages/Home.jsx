@@ -52,7 +52,8 @@ const Home = () => {
           />
         </Form.Group>
         <Button
-          className="w-full rounded-md border-0 bg-blue-600 py-2.5 text-white shadow-sm hover:bg-blue-700"
+          className="mb-4 w-full rounded-md border-0 bg-blue-600 py-2.5 text-white shadow-sm hover:bg-blue-700
+          "
           onClick={handleButtonClick}
         >
           Get Seats
