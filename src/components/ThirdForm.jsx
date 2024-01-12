@@ -17,9 +17,6 @@ const handleSubmitForm = async (data) => {
 
     const response = await fetch("https://codebuddy.review/submit", {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
       body: JSON.stringify(finalData),
     });
 
