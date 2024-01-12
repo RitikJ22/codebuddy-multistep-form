@@ -1,80 +1,108 @@
-# Welcome to Round 3 of your React Interview
+# Codebuddy React Interview Assignment
 
-> This round is to test your practical knowledge of using React in real world applications.
-> The repo serves as a boilerplate for the React application you are going to build.
-> The boilerplate is created using `vite`.
+This repository contains the assignment for the Codebuddy React Interview. The assignment consists of two projects: Deployed in the `main`  and `Seat_Booking` branch .
 
-> **_Please read the below instructions carefully_**
+## Project 1: Multi-Step Form
 
----
+The `main` branch hosts the first project which is a Multi-step Form. [live link](<https://codebuddy-multistep-form.vercel.app/>).
 
-### **Before starting keep in mind the below points**
+### Project Overview
 
-- The repo is configured with **ESlint** to check the code quality of your javascript code.
-- Failing the rules set by the above linters will **prevent you from committing to this repo**
-- The Project will show some VS Code plugins as recommendations, that help you regarding these linter, ESLint, Prettier, etc. Install these plugins for better experience. You can open `.vscode/extensions.json` to see the list of recommended plugins.
-- This repo is pre-installed with Tailwind CSS. You can use it to style your components.
-- This repo is pre-installed with React Router v6.4. You can use it to create routes in your application.
-- You can install other npm packages if you want
-- Upon completing the problem, commit to your **FORKED** github repo and share the github repo url with us for review
-- Writing inline CSS is discouraged, utilize Tailwind or write your custom CSS in separate CSS files or CSS modules. You are free to use any other CSS or Component library like Bootstrap, Material UI, etc.
-- UI must be **responsive**
-- Can use any online resources to solve the problem
-- Must use [`fetch API`](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API) to make API calls instead of `axios`. Use `JSON.stringify` to convert the body to string when doing any POST request. Don't pass any headers like `Content-Type` or `Accept` in the request.
-- You have a total of **2 hrs** to complete the task
+# The Problem Statement
+
+## Part 1
 
 ---
 
-## Pre-requisites
+### Create multi-step form in React which will contain 3 forms
 
-1. You must have NodeJS (v18+) installed on your machine
-2. You must have a basic understanding of React, React Router, Tailwind CSS, etc.
-3. You must have a basic understanding of Git and GitHub
-4. You must have VS Code installed on your machine
+**Form 1** will take 2 inputs, with the below validations:
 
-## Installation
+- `emailId` - Required. Must be a valid email ID
+- `password` - Required. Must contain minimum 2 capital letters, 2 small letter, 2 numbers and 2 special characters.
 
-> **_Please read the below instructions carefully. Complete all the steps sequentially_**.
+**Form 2** will take 3 inputs, with the below validations:
 
-1. **_FORK_** this repo to your own GitHub account. **_DON'T CLONE THIS REPO_**. Fork button is the top right corner of the GitHub page.
-2. Clone the **FORKED** repo to your local machine.
-3. Open the project folder in VS Code
-4. Install the recommended plugins
-   - [EditorConfig](https://marketplace.visualstudio.com/items?itemName=EditorConfig.EditorConfig)
-   - [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint)
-   - [Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode)
-   - or open `.vscode/extensions.json` to see the list of recommended plugins and install them manually
-5. Install `node_modules` using `npm` or `yarn` or `pnpm`.
+- `firstName` - Required. Allow only alphabets. Minimum of 2 character and maximum 50.
+- `lastName` - Optional. If not empty, will only allow alphabets
+- `address` - Required. Minimum length 10.
 
-   ```sh
-   npm install
-   ```
+**Form 3** will take 3 inputs, with the below validations:
 
-   OR
+- `countryCode` - Required. Allow only 2 country code, India (+91) and America (+1). Must be a dropdown input
+- `phoneNumber` - Required. Allow only 10 digit numeric phone number
+- `acceptTermsAndCondition` - Required. Will be a checkbox input and must be selected.
 
-   ```sh
-   yarn install
-   ```
+Each form will have 3 button, named below:
 
-   OR
+- `Back`: Will be disabled for **Form 1**
+- `Save`: Will be enabled for all forms`
+- `Save and Next`: Will be disabled for **Form 3**
 
-   ```sh
-   pnpm install
-   ```
+#### Features:
 
-6. Run `npm run dev` or `yarn dev` to run the project.
-7. Project will start at http://localhost:5173
+- User can `Save and Next` only if the form valid for each step.
+- User can go back to previous screen to change it's values
+- User will have the ability to jump back to any form if previously filled using a tabbed navigation
+- Show error message to user for failed input validation
 
-> If you are on Windows and getting lot of ESLint errors due end of line characters CRLF please run the below command to fix it.
+At the end of **Form 3**, when the user will click on save all the details needs to submitted through a HTTP POST request to `https://codebuddy.review/submit`
 
-```sh
-npm run format
+Example request body:
+
+```json
+{
+  "emailId": "john.doe@gmail.com",
+  "password": "QWerty##11",
+  "firstName": "John",
+  "lastName": "Doe",
+  "address": "22/B, Baker Street, London - 10089",
+  "countryCode": "+91",
+  "phoneNumber": "2225550909"
+}
 ```
 
-> **NOTE**: If you face issue installing with `npm` trying using `yarn v1.22.*`
+> Note: `acceptTermsAndCondition` must not be submitted to API
 
-> **NOTE**: You might be asked to do HTTP calls to https://codebuddy.review , the API mentioned in the Question Set will only work if you do a fetch request from the application as it served using MSW (Mock Service Worker) https://mswjs.io/. **So it won't work if you try to do a fetch request from Postman or any other tool**. Check for message `[MSW] Mocking enabled` in the browser console to confirm that the API is working.
+Upon doing a valid HTTP POST request you will get a response like below.
 
----
+Sample API response:
 
-> In case of any queries feel free to contact us
+```json
+{
+  "message": "Success",
+  "data": {
+    "emailId": "john.doe@gmail.com",
+    "password": "QWerty##11",
+    "firstName": "John",
+    "lastName": "Doe",
+    "address": "22/B, Baker Street, London - 10089",
+    "countryCode": "+91",
+    "phoneNumber": "2225550909"
+  }
+}
+```
+
+### Part 2
+
+Upon submitting the form at the end, redirect the user to `/posts` (i.e., http://localhost:3000/posts)
+
+Here you have to display the list of post which we get from the API using HTTP GET request at `https://codebuddy.review/posts`
+
+This API will return a list of posts having the below details
+
+- `id`: Unique id for each post
+- `firstName`: First name of the author
+- `lastName`: Last name of the author
+- `writeup`: Post description / writeup
+- `image`: Post image
+- `avatar`: Post author image
+
+Display the list of posts which will show the above details.
+
+For Large Screens, show 3 post in an single row
+
+For Medium Screens, show 2 post in an single row
+
+For Small Screens, show 1 post in an single row
+
