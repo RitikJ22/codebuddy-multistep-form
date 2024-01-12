@@ -1,80 +1,57 @@
-# Welcome to Round 3 of your React Interview
+# Codebuddy React Interview Assignment
 
-> This round is to test your practical knowledge of using React in real world applications.
-> The repo serves as a boilerplate for the React application you are going to build.
-> The boilerplate is created using `vite`.
+This repository contains the assignment for the Codebuddy React Interview. The assignment consists of two projects: Deployed in the `main`  and `Seat_Booking` branch .
 
-> **_Please read the below instructions carefully_**
+## Project 2: Movie-seat Booking
 
----
+The `Seat_Booking` branch hosts the Second project which is a  Movie-seat Booking. [live link](<https://codebuddy-multistep-form-git-seatbooking-ritikj22s-projects.vercel.app//>).
 
-### **Before starting keep in mind the below points**
+### Project Overview
 
-- The repo is configured with **ESlint** to check the code quality of your javascript code.
-- Failing the rules set by the above linters will **prevent you from committing to this repo**
-- The Project will show some VS Code plugins as recommendations, that help you regarding these linter, ESLint, Prettier, etc. Install these plugins for better experience. You can open `.vscode/extensions.json` to see the list of recommended plugins.
-- This repo is pre-installed with Tailwind CSS. You can use it to style your components.
-- This repo is pre-installed with React Router v6.4. You can use it to create routes in your application.
-- You can install other npm packages if you want
-- Upon completing the problem, commit to your **FORKED** github repo and share the github repo url with us for review
-- Writing inline CSS is discouraged, utilize Tailwind or write your custom CSS in separate CSS files or CSS modules. You are free to use any other CSS or Component library like Bootstrap, Material UI, etc.
-- UI must be **responsive**
-- Can use any online resources to solve the problem
-- Must use [`fetch API`](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API) to make API calls instead of `axios`. Use `JSON.stringify` to convert the body to string when doing any POST request. Don't pass any headers like `Content-Type` or `Accept` in the request.
-- You have a total of **2 hrs** to complete the task
+
+# Problem Statement
+
+## Part 1
 
 ---
 
-## Pre-requisites
+Create an UI to show the seats available for booking in a movie theater. The movie theater can have N number of rows and each row can seats matching it's row number.
 
-1. You must have NodeJS (v18+) installed on your machine
-2. You must have a basic understanding of React, React Router, Tailwind CSS, etc.
-3. You must have a basic understanding of Git and GitHub
-4. You must have VS Code installed on your machine
+For example, if the movie theater has 3 rows, the first row or row 1 has 1 seat, the second row or row 2 has 2 seats and the third row or row 3 has 3 seats.
 
-## Installation
+Similary Nth row will have N number of seats.
 
-> **_Please read the below instructions carefully. Complete all the steps sequentially_**.
+All the prime numbered seats are reserved for the movie theater.
 
-1. **_FORK_** this repo to your own GitHub account. **_DON'T CLONE THIS REPO_**. Fork button is the top right corner of the GitHub page.
-2. Clone the **FORKED** repo to your local machine.
-3. Open the project folder in VS Code
-4. Install the recommended plugins
-   - [EditorConfig](https://marketplace.visualstudio.com/items?itemName=EditorConfig.EditorConfig)
-   - [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint)
-   - [Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode)
-   - or open `.vscode/extensions.json` to see the list of recommended plugins and install them manually
-5. Install `node_modules` using `npm` or `yarn` or `pnpm`.
+You can fetch the seats using the api GET `https://codebuddy.review/seats?count=3`, which will return the list of seats available for booking. You can pass the number of rows as url query params using the key `count`.
 
-   ```sh
-   npm install
-   ```
+Create a HTML Input element to accept the number of rows and submit button to fetch the seats.
 
-   OR
+The maximum number of rows will be 10 and mimimum number of rows will be 3.
 
-   ```sh
-   yarn install
-   ```
+On change of number of rows, render the seats row wise. The reserved seats should be marked as disabled. Upon selection of seats by the user, the selected seats should be marked as selected.
 
-   OR
+Submit the selected seats to the server, using the api POST `https://codebuddy.review/submit`. You should submit the array of seat id's selected by the user.
 
-   ```sh
-   pnpm install
-   ```
+User should select a minimum of 1 seat and maximum of 5 seats.
 
-6. Run `npm run dev` or `yarn dev` to run the project.
-7. Project will start at http://localhost:5173
+Render the rows and seats in an inverted pyramid shape.
 
-> If you are on Windows and getting lot of ESLint errors due end of line characters CRLF please run the below command to fix it.
+Each seat should show the following details:
 
-```sh
-npm run format
-```
+- Seat number
+- Seat reservation status
+- Seat Row number
 
-> **NOTE**: If you face issue installing with `npm` trying using `yarn v1.22.*`
-
-> **NOTE**: You might be asked to do HTTP calls to https://codebuddy.review , the API mentioned in the Question Set will only work if you do a fetch request from the application as it served using MSW (Mock Service Worker) https://mswjs.io/. **So it won't work if you try to do a fetch request from Postman or any other tool**. Check for message `[MSW] Mocking enabled` in the browser console to confirm that the API is working.
+## Part 2
 
 ---
 
-> In case of any queries feel free to contact us
+Calculate the total cost of the seats selected by the user.The cost of the movie ticket is $20. The cost of a single seat is calculated based on the seat row number.
+
+Cost of a seat is $10 multiplied by the seat row number.
+
+So if the user selects the seat row number 3, the cost of the seat is $30. (3 \* 10). So the total cost of the seats selected by the user is $30 + $20 = $50.
+
+Display the total cost of the seats selected by the user.
+
