@@ -1,6 +1,6 @@
 # Codebuddy React Interview Assignment
 
-This repository contains the assignment for the Codebuddy React Interview. The assignment consists of two projects: Deployed in the `main`  and `Seat_Booking` branch .
+This repository contains the assignment for the Codebuddy React Interview. The assignment consists of two projects: Deployed in the [main](<https://github.com/RitikJ22/codebuddy-multistep-form/>).  and [Seat_Booking](<https://github.com/RitikJ22/codebuddy-multistep-form/tree/Seat_Booking/>). branch .
 
 ## Project 1: Multi-Step Form
 
