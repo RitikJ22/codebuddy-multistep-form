@@ -9,16 +9,16 @@ const Home = () => {
 
   function ShowCase() {
     return (
-      <ul className="mb-12 flex w-full justify-center rounded border bg-white p-3 text-gray-500 shadow-lg">
-        <li className="mx-3 flex items-center">
+      <ul className="mb-12 flex justify-center rounded border bg-white p-3 text-gray-500 shadow-lg sm:w-full">
+        <li className="whitespa mx-3 flex  flex-wrap items-center justify-center">
           <span className="mr-2 inline-block h-3 w-4 rounded bg-black" />
           <small>Theatre Blocked</small>
         </li>
-        <li className="mx-3 flex items-center">
+        <li className="mx-3 flex flex-wrap  items-center justify-center">
           <span className="mr-2 inline-block h-3 w-4 rounded bg-green-500" />
           <small>Selected</small>
         </li>
-        <li className="mx-3 flex items-center">
+        <li className="mx-3 flex flex-wrap  items-center justify-center">
           <span className="mr-2 inline-block h-3 w-4 rounded bg-gray-400" />
           <small>Available</small>
         </li>
