@@ -1,97 +1,79 @@
-import { useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
-import * as Yup from "yup";
-import { useEffect, useState } from "react";
-const FirstForm = (props) => {
-  const validationSchema = Yup.object().shape({
-    emailId: Yup.string().required("Email is required").email("Must be a valid email ID"),
-    password: Yup.string()
-      .required("Password is required")
-      .matches(
-        /^(?=.*[A-Z].*[A-Z])(?=.*[!@#$&*].*[!@#$&*])(?=.*\d.*\d)(?=.*[a-z].*[a-z]).{8,}$/,
-        "Must contain minimum 2 capital letters, 2 small letters, 2 numbers and 2 special characters",
-      ),
-  });
+import { Controller } from "react-hook-form";
+import Form from "react-bootstrap/Form";
 
-  const {
-    register,
-    handleSubmit,
-    setValue,
-    formState: { errors },
-  } = useForm({
-    resolver: yupResolver(validationSchema),
-  });
-
-  const onSubmit = (data) => {
-    sessionStorage.setItem("firstFormData", JSON.stringify(data));
-    signalParent(true);
-  };
-
-  useEffect(() => {
-    const storedData = sessionStorage.getItem("firstFormData");
-    if (storedData) {
-      const formData = JSON.parse(storedData);
-      for (const key in formData) {
-        setValue(key, formData[key], { shouldValidate: true });
-      }
-    }
-  }, [setValue]);
-
-  const [isValidSate, setIsValidState] = useState(false);
-  const signalParent = (isValid) => {
-    setIsValidState(isValid);
-    props.signalIfValid(isValid);
-  };
-
-  useEffect(() => {
-    signalParent(isValidSate);
-  }, []);
-
-  return (
-    <form
-      onSubmit={handleSubmit(onSubmit)}
-      className="mx-auto mb-4 mt-10 max-w-md rounded-lg bg-white p-6 shadow-md md:w-full"
-    >
-      <h2 className="mb-6 text-center text-2xl font-semibold">Form</h2>
-      <div className="mb-4">
-        <label htmlFor="emailId" className="mb-2 block text-sm font-medium text-gray-700">
-          Email
-        </label>
-        <input
-          id="emailId"
-          name="emailId"
-          type="email"
-          {...register("emailId")}
-          className={`w-full rounded-lg border p-2 text-sm ${
-            errors.emailId ? "border-red-500" : "border-gray-300"
-          }`}
-        />
-        {errors.emailId && (
-          <p className="mt-1 text-xs italic text-red-500">{errors.emailId.message}</p>
+const FormStep1 = ({ control, errors }) => (
+  <Form className="sm:min-w-[400px]">
+    <Form.Group className="my-6 flex flex-col">
+      <Form.Label className="form-label">Email *</Form.Label>
+      <Controller
+        name="email"
+        control={control}
+        defaultValue=""
+        render={({ field: { name, onChange, value } }) => (
+          <>
+            <Form.Control
+              className="form-input rounded-md border px-3 py-2 text-gray-700 focus:outline-none focus:ring-1 focus:ring-blue-500"
+              value={value}
+              onChange={onChange}
+              type="email"
+              name={name}
+            />
+            {errors.email && (
+              <div className="error-message" style={{ color: "red", fontSize: "0.8em" }}>
+                {errors.email.message}
+              </div>
+            )}
+          </>
         )}
-      </div>
-      <div className="mb-6">
-        <label htmlFor="password" className="mb-2 block text-sm font-medium text-gray-700">
-          Password
-        </label>
-        <input
-          id="password"
-          name="password"
-          type="password"
-          {...register("password")}
-          className={`w-full rounded-lg border p-2 text-sm ${
-            errors.password ? "border-red-500" : "border-gray-300"
-          }`}
-        />
-        {errors.password && (
-          <p className="mt-1 text-xs italic text-red-500">{errors.password.message}</p>
+        rules={{
+          required: {
+            value: true,
+            message: "This field is required!",
+          },
+          pattern: {
+            value:
+              /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+            message: "Must be a valid email ID",
+          },
+        }}
+      />
+    </Form.Group>
+    <Form.Group className="mb-3 flex flex-col">
+      <Form.Label className="form-label">Password *</Form.Label>
+      <Controller
+        name="password"
+        control={control}
+        defaultValue=""
+        render={({ field: { name, onChange, value } }) => (
+          <>
+            <Form.Control
+              className="form-input rounded-md border px-3 py-2 text-gray-700 focus:outline-none focus:ring-1 focus:ring-blue-500"
+              value={value}
+              onChange={onChange}
+              type="password"
+              name={name}
+            />
+            {errors.password && (
+              <div className="error-message" style={{ color: "red", fontSize: "0.8em" }}>
+                {errors.password.message}
+              </div>
+            )}
+          </>
         )}
-      </div>
-      <button type="submit" className="mb-4 w-full rounded-lg bg-blue-500 py-2 text-sm text-white">
-        Save
-      </button>
-    </form>
-  );
-};
+        rules={{
+          required: {
+            value: true,
+            message: "This field is required!",
+          },
+          pattern: {
+            value: /^(?=(.*[A-Z]){2})(?=(.*[a-z]){2})(?=(.*\d){2})(?=(.*[\W_]){2}).{8,}$/,
+            message:
+              "Must contain minimum 2 capital letters, 2 small letter, 2 numbers and 2 special characters.",
+          },
+        }}
+      />
+    </Form.Group>
+  </Form>
+);
 
-export default FirstForm;
+export default FormStep1;

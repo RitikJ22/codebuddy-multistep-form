@@ -1,114 +1,119 @@
-import { useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
-import * as Yup from "yup";
-import { useState, useEffect } from "react";
+import { Controller } from "react-hook-form";
+import Form from "react-bootstrap/Form";
 
-const SecondForm = (props) => {
-  const validationSchema = Yup.object({
-    firstName: Yup.string()
-      .required("First name is required")
-      .matches(/^[a-zA-Z\s]*$/, "Only alphabets are allowed for this field")
-      .min(2, "Minimum 2 characters")
-      .max(50, "Maximum 50 characters"),
-    lastName: Yup.string()
-      .matches(/^[a-zA-Z\s]*$/, "Only alphabets are allowed for this field")
-      .nullable(),
-    address: Yup.string().required("Address is required").min(10, "Minimum 10 characters required"),
-  });
+const FormStep2 = ({ control, errors, trigger }) => (
+  <Form className="my-6 sm:min-w-[400px]">
+    <Form.Group className="mb-3 flex flex-col">
+      <Form.Label className="form-label">First Name *</Form.Label>
+      <Controller
+        name="firstName"
+        control={control}
+        defaultValue=""
+        render={({ field: { name, onChange, value } }) => (
+          <>
+            <Form.Control
+              className="form-input rounded-md border px-3 py-2 text-gray-700 focus:outline-none focus:ring-1 focus:ring-blue-500"
+              value={value}
+              onChange={onChange}
+              type="text"
+              name={name}
+            />
+            {errors.firstName && (
+              <div className="error-message" style={{ color: "red", fontSize: "0.8em" }}>
+                {errors.firstName.message}
+              </div>
+            )}
+          </>
+        )}
+        rules={{
+          required: {
+            value: true,
+            message: "This field is required!",
+          },
+          pattern: {
+            value: /^[a-zA-Z]+$/,
+            message: "Only alphabets are allowed!",
+          },
+          minLength: {
+            value: 2,
+            message: "Minimum 2 characters are required!",
+          },
+          maxLength: {
+            value: 50,
+            message: "Maximum 50 characters are allowed!",
+          },
+        }}
+      />
+    </Form.Group>
+    <Form.Group className="mb-3 flex flex-col">
+      <Form.Label className="form-label">Last Name</Form.Label>
+      <Controller
+        name="lastName"
+        control={control}
+        defaultValue=""
+        render={({ field: { name, onChange, value } }) => (
+          <>
+            <Form.Control
+              className="form-input rounded-md border px-3 py-2 text-gray-700 focus:outline-none focus:ring-1 focus:ring-blue-500"
+              onBlur={() => trigger(name)}
+              value={value}
+              onChange={(e) => {
+                trigger(name);
+                onChange(e);
+              }}
+              type="text"
+              name={name}
+            />
+            {errors.lastName && (
+              <div className="error-message" style={{ color: "red", fontSize: "0.8em" }}>
+                {errors.lastName.message}
+              </div>
+            )}
+          </>
+        )}
+        rules={{
+          pattern: {
+            value: /^[a-zA-Z]+$/,
+            message: "Only alphabets are allowed!",
+          },
+        }}
+      />
+    </Form.Group>
+    <Form.Group className="mb-3 flex flex-col">
+      <Form.Label className="form-label">Address *</Form.Label>
+      <Controller
+        name="address"
+        control={control}
+        defaultValue=""
+        render={({ field: { name, onChange, value } }) => (
+          <>
+            <Form.Control
+              className="form-input rounded-md border px-3 py-2 text-gray-700 focus:outline-none focus:ring-1 focus:ring-blue-500"
+              value={value}
+              onChange={onChange}
+              type="text"
+              name={name}
+            />
+            {errors.address && (
+              <div className="error-message" style={{ color: "red", fontSize: "0.8em" }}>
+                {errors.address.message}
+              </div>
+            )}
+          </>
+        )}
+        rules={{
+          required: {
+            value: true,
+            message: "This field is required!",
+          },
+          minLength: {
+            value: 10,
+            message: "Minimum 10 characters are required!",
+          },
+        }}
+      />
+    </Form.Group>
+  </Form>
+);
 
-  const {
-    register,
-    handleSubmit,
-    setValue,
-    formState: { errors },
-  } = useForm({
-    resolver: yupResolver(validationSchema),
-  });
-
-  const onSubmit = (data) => {
-    sessionStorage.setItem("secondFormData", JSON.stringify(data));
-    signalParent(true);
-  };
-
-  useEffect(() => {
-    const storedData = sessionStorage.getItem("secondFormData");
-    if (storedData) {
-      const formData = JSON.parse(storedData);
-      for (const key in formData) {
-        setValue(key, formData[key], { shouldValidate: true });
-      }
-    }
-  }, [setValue]);
-
-  const [isValidSate, setIsValidState] = useState(false);
-  const signalParent = (isValid) => {
-    setIsValidState(isValid);
-    props.signalIfValid(isValid);
-  };
-
-  useEffect(() => {
-    signalParent(isValidSate);
-  }, []);
-
-  return (
-    <form
-      onSubmit={handleSubmit(onSubmit)}
-      className="mx-auto mb-4 flex max-w-md flex-col space-y-4  rounded-lg bg-white  p-8 shadow-md md:w-full"
-    >
-      <h2 className="text-center text-2xl font-semibold text-gray-800">Form</h2>
-      <div className="flex flex-col space-y-1">
-        <label htmlFor="firstName" className="mb-2 block  text-sm  font-medium  text-gray-700">
-          First Name
-        </label>
-        <input
-          id="firstName"
-          name="firstName"
-          type="text"
-          {...register("firstName")}
-          className={`form-input w-full rounded-lg border-2 p-2 text-sm ${
-            errors.firstName ? "border-red-500" : "border-gray-300"
-          }`}
-          placeholder="John"
-        />
-        {errors.firstName && <p className="text-sm text-red-500">{errors.firstName.message}</p>}
-      </div>
-      <div className="flex flex-col space-y-1">
-        <label htmlFor="lastName" className="text-sm font-medium text-gray-700">
-          Last Name
-        </label>
-        <input
-          id="lastName"
-          name="lastName"
-          type="text"
-          {...register("lastName")}
-          className={`form-input w-full rounded-lg border-2 p-2 text-sm ${
-            errors.lastName ? "border-red-500" : "border-gray-300"
-          }`}
-          placeholder="Doe"
-        />
-        {errors.lastName && <p className="text-sm text-red-500">{errors.lastName.message}</p>}
-      </div>
-      <div className="flex flex-col space-y-1">
-        <label htmlFor="address" className="text-sm font-medium text-gray-700">
-          Address
-        </label>
-        <input
-          id="address"
-          name="address"
-          type="text"
-          {...register("address")}
-          className={`form-input w-full rounded-lg border-2 p-2 text-sm ${
-            errors.address ? "border-red-500" : "border-gray-300"
-          }`}
-          placeholder="123 Main St"
-        />
-        {errors.address && <p className="text-sm text-red-500">{errors.address.message}</p>}
-      </div>
-      <button type="submit" className="mb-4 w-full rounded-lg bg-blue-500 py-2 text-sm text-white">
-        Save
-      </button>
-    </form>
-  );
-};
-
-export default SecondForm;
+export default FormStep2;

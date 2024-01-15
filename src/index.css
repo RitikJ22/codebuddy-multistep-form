@@ -4,16 +4,15 @@
 @tailwind components;
 @tailwind utilities;
 
-
-
 .go2392553372 {
   margin: auto !important;
 }
 
-button{
-    display: block;
+button {
+  display: block;
 }
-button:disabled{
-    display: none;
-    cursor: not-allowed;
+button:disabled {
+  background-color: rgb(16, 212, 238);
+  opacity: 0.5; /* Low opacity for disabled state */
+  cursor: not-allowed;
 }
